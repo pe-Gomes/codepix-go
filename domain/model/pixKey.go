@@ -9,18 +9,19 @@ import (
 )
 
 type PixKeyRepositoryInterface interface {
-	RegisterKey(piKey *PixKey) (*PixKey, error)
+	RegisterKey(pixKey *PixKey) (*PixKey, error)
 	FindKeyByKind(key string, kind string) (*PixKey, error)
 	AddBank(bank *Bank) error
 	AddAccount(account *Account) error
 	FindAccount(id string) (*Account, error)
+	FindBank(id string) (*Bank, error)
 }
 
 type PixKey struct {
 	Base      `valid:"required"`
 	Kind      string   `json:"kind" required:"notnull"`
 	Key       string   `json:"key" required:"notnull"`
-	AccoundID string   `json:"accound_id" required:"notnull"`
+	AccoundID string   `gorm:"column:accound_id;type:uuid" valid:"notnull"`
 	Account   *Account `valid:"-"`
 	Status    string   `json:"status" required:"notnull"`
 }
